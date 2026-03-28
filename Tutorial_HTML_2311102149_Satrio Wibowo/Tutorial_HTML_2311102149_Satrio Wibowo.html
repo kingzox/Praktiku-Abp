@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Satrio Wibowo — Portfolio</title>
+  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  
+  <style>
+    /* --- CSS VARIABLES --- */
+    :root {
+      --bg-color: #FAFAFA;
+      --text-main: #111827;
+      --primary: #E9C7C7; /* Pink Creamy */
+      --glow-1: rgba(233, 199, 199, 0.2);
+      --glow-2: rgba(233, 199, 199, 0.1);
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      font-family: system-ui, -apple-system, sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* Utilities */
+    .text-primary-custom { 
+      color: var(--primary) !important; 
+    }
+    
+    .bg-primary-custom { 
+      background-color: var(--primary) !important; 
+    }
+    
+    .tracking-widest { 
+      letter-spacing: 0.1em; 
+    }
+
+    /* Background Glow */
+    .bg-glow { 
+      position: fixed; 
+      border-radius: 50%; 
+      filter: blur(120px); 
+      z-index: -1; 
+      pointer-events: none; 
+    }
+
+    .glow-1 { 
+      top: -20%; 
+      left: -10%; 
+      width: 70%; 
+      height: 70%; 
+      background: var(--glow-1); 
+    }
+
+    .glow-2 { 
+      bottom: -20%; 
+      right: -10%; 
+      width: 50%; 
+      height: 50%; 
+      background: var(--glow-2); 
+      filter: blur(150px); 
+    }
+
+    /* Header Nav */
+    .header {
+      position: fixed; 
+      top: 0; 
+      left: 0; 
+      right: 0; 
+      height: 5rem; 
+      background: rgba(250, 250, 250, 0.8); 
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid #eaeaea; 
+      z-index: 50;
+    }
+    
+    .logo { 
+      font-weight: bold; 
+      font-size: 1.25rem; 
+      letter-spacing: 0.1em; 
+      color: var(--primary); 
+    }
+    
+    .nav-links a { 
+      color: #6b7280; 
+      font-weight: 500; 
+      font-size: 0.9rem; 
+      transition: color 0.3s; 
+    }
+    
+    .nav-links a:hover { 
+      color: var(--text-main); 
+    }
+
+    /* Hero */
+    .hero { 
+      padding-top: 10rem; 
+      padding-bottom: 2rem; 
+    }
+    
+    .badge-custom {
+      display: inline-block; 
+      padding: 0.25rem 1rem; 
+      border: 1px solid #eaeaea;
+      border-radius: 99px; 
+      font-size: 0.85rem; 
+      color: #6b7280; 
+      background: white;
+    }
+    
+    .badge-custom a { 
+      color: var(--primary); 
+      font-weight: bold; 
+      text-decoration: none; 
+      margin-left: 0.5rem; 
+    }
+    
+    .hero-title { 
+      font-size: clamp(2.5rem, 7vw, 5rem); 
+      line-height: 1.1; 
+      font-weight: bold; 
+    }
+    
+    .text-gradient { 
+      background: linear-gradient(to right, var(--primary), #888); 
+      -webkit-background-clip: text; 
+      background-clip: text; 
+      -webkit-text-fill-color: transparent; 
+    }
+    
+    .hero-desc { 
+      max-width: 600px; 
+      color: #6b7280; 
+      font-size: 1.1rem; 
+    }
+
+    /* Buttons & Links */
+    .btn-custom {
+      display: inline-block; 
+      padding: 1rem 2rem; 
+      border-radius: 99px; 
+      font-weight: bold;
+      font-size: 0.9rem; 
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    
+    .btn-primary-custom { 
+      background: var(--primary); 
+      color: #fff; 
+      border: none; 
+    }
+    
+    .btn-primary-custom:hover { 
+      transform: scale(1.05); 
+      box-shadow: 0 10px 30px var(--glow-1); 
+      color: #fff; 
+    }
+    
+    .btn-text { 
+      color: var(--text-main); 
+    }
+    
+    .btn-text:hover { 
+      color: var(--primary); 
+    }
+    
+    .btn-outline-custom {
+      display: inline-block; 
+      padding: 0.75rem 1.5rem; 
+      border: 1px solid #eaeaea; 
+      border-radius: 99px; 
+      font-size: 0.75rem; 
+      text-transform: uppercase; 
+      letter-spacing: 0.1em; 
+      color: #6b7280; 
+      transition: all 0.3s; 
+      background: white;
+    }
+    
+    .btn-outline-custom:hover { 
+      border-color: var(--primary); 
+      color: var(--primary); 
+      transform: translateY(-3px); 
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05); 
+    }
+
+    /* Subtitle */
+    .subtitle { 
+      color: var(--primary); 
+      font-size: 0.75rem; 
+      letter-spacing: 0.3em; 
+      text-transform: uppercase; 
+      font-weight: bold; 
+    }
+
+    /* About Image */
+    .about-image { 
+      border-radius: 2.5rem; 
+      overflow: hidden; 
+      aspect-ratio: 4/5; 
+      border: 1px solid #eaeaea; 
+    }
+    
+    .about-image img { 
+      filter: grayscale(100%); 
+      transition: filter 0.5s; 
+    }
+    
+    .about-image:hover img { 
+      filter: grayscale(0%); 
+    }
+
+    /* Portfolio Masonry & Filters */
+    .filter-btn {
+      padding: 0.5rem 1.5rem; 
+      border-radius: 99px; 
+      border: 1px solid #eaeaea;
+      background: #fff; 
+      color: #6b7280; 
+      font-weight: bold; 
+      transition: all 0.3s;
+    }
+    
+    .filter-btn.active { 
+      background: var(--primary); 
+      color: #fff; 
+      border-color: var(--primary); 
+    }
+    
+    .filter-btn:hover { 
+      border-color: var(--primary); 
+    }
+
+    .masonry-grid { 
+      display: flex; 
+      gap: 1.5rem; 
+      align-items: flex-start; 
+    }
+    
+    .masonry-col { 
+      display: flex; 
+      flex-direction: column; 
+      gap: 1.5rem; 
+      flex: 1; 
+    }
+    
+    .portfolio-card {
+      position: relative; 
+      border-radius: 1.5rem; 
+      overflow: hidden; 
+      background: #fff;
+      border: 1px solid #eaeaea; 
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    
+    .portfolio-card:hover { 
+      transform: translateY(-5px); 
+      box-shadow: 0 10px 30px rgba(0,0,0,0.05); 
+      border-color: var(--primary); 
+    }
+    
+    .portfolio-card img, .portfolio-card video { 
+      width: 100%; 
+      height: auto; 
+      display: block; 
+      object-fit: cover; 
+      transition: transform 0.7s, filter 0.5s; 
+    }
+    
+    .portfolio-card:hover img, .portfolio-card:hover video { 
+      transform: scale(1.05); 
+      filter: brightness(0.5) blur(2px); 
+    }
+    
+    .card-overlay {
+      position: absolute; 
+      inset: 0; 
+      display: flex; 
+      flex-direction: column; 
+      justify-content: center; 
+      align-items: center;
+      opacity: 0; 
+      transition: opacity 0.5s; 
+      color: #fff; 
+      padding: 1rem; 
+      text-align: center; 
+      background: rgba(0,0,0,0.4);
+    }
+    
+    .portfolio-card:hover .card-overlay { 
+      opacity: 1; 
+    }
+    
+    .card-info { 
+      padding: 1.25rem; 
+      transition: opacity 0.3s; 
+    }
+    
+    .portfolio-card:hover .card-info { 
+      opacity: 0; 
+    }
+    
+    .card-info p { 
+      font-size: 0.65rem; 
+      color: var(--primary); 
+      letter-spacing: 0.2em; 
+      text-transform: uppercase; 
+      font-weight: bold; 
+      margin-bottom: 0.2rem;
+    }
+    
+    .card-info h4 { 
+      font-size: 0.9rem; 
+      color: var(--text-main); 
+      font-weight: bold; 
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg-glow glow-1"></div>
+  <div class="bg-glow glow-2"></div>
+
+  <header class="header">
+    <nav class="container d-flex justify-content-between align-items-center h-100 position-relative">
+      <a href="#" class="logo text-decoration-none">OXY-PROJECT</a>
+      
+      <div class="nav-links d-none d-lg-flex gap-4 position-absolute top-50 start-50 translate-middle">
+        <a href="#about" class="text-decoration-none">About</a>
+        <a href="#education" class="text-decoration-none">Education</a>
+        <a href="#work" class="text-decoration-none">Portfolio</a>
+        <a href="#contact" class="text-decoration-none">Contact</a>
+      </div>
+
+      <div class="d-flex align-items-center gap-3">
+        <div class="text-end lh-sm d-none d-sm-block">
+          <div class="fw-bold text-dark" style="font-size: 0.85rem;">Satrio Wibowo</div>
+          <div class="text-primary-custom fw-bold mt-1" style="font-size: 0.65rem; letter-spacing: 0.15em;">NIM: 2311102149</div>
+        </div>
+        <img src="images/profile.jpg" alt="Profile" class="rounded-circle object-fit-cover shadow-sm" width="45" height="45" style="border: 2px solid var(--primary);">
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section id="home" class="hero container text-center">
+      <div class="badge-custom mb-4">Currently open for select projects. <a href="#contact">Let’s talk &rarr;</a></div>
+      <h1 class="hero-title mb-4">
+        <span class="text-gradient">Digital Alchemist:</span><br>
+        Blending Design,<br>Pixels, and Code.
+      </h1>
+      <p class="hero-desc mx-auto mb-4">
+        Crafting visual narratives across branding, photography, and art in both digital and traditional forms. Every pixel, stroke, and frame intentional.
+      </p>
+      
+      <div id="quote-box" class="mt-4 mb-5 p-4 rounded-4 shadow-sm mx-auto" style="max-width: 600px; background: rgba(255,255,255,0.5); backdrop-filter: blur(10px);">
+        <p id="quote-text" class="fst-italic mb-2 text-muted">"Loading daily motivation..."</p>
+        <strong id="quote-author" class="small text-primary-custom"></strong>
+      </div>
+
+      <div class="d-flex justify-content-center gap-3 align-items-center mt-4">
+        <a href="#work" class="btn-custom btn-primary-custom text-decoration-none">View My Journey.</a>
+        <a href="#contact" class="btn-custom btn-text text-decoration-none">Contact &rarr;</a>
+      </div>
+    </section>
+
+    <section id="about" class="container py-5 mt-5 border-top">
+      <p class="subtitle mb-4">About Me</p>
+      <div class="row align-items-center gy-5">
+        <div class="col-lg-5">
+          <div class="about-image">
+            <img src="images/profile.jpg" alt="Satrio Wibowo" class="img-fluid w-100 h-100 object-fit-cover">
+          </div>
+        </div>
+        <div class="col-lg-7 px-lg-5">
+          <h2 class="display-5 fw-bold mb-4">Crafting meaning from <br> <span class="text-primary-custom">visual chaos.</span></h2>
+          <p class="text-muted fs-5 mb-4">Halo, aku Satrio Wibowo! Saat ini aku adalah mahasiswa Teknik Informatika di Telkom University Purwokerto dengan pengalaman lebih dari 3 tahun di industri kreatif. Proses kreatifku berakar pada rasa ingin tahu.</p>
+          
+          <div class="mt-5">
+            <p class="subtitle mb-3">Skills & Services</p>
+            <div class="d-flex flex-wrap gap-2">
+              <span class="badge bg-light text-secondary border px-3 py-2 rounded-pill text-uppercase tracking-widest">Branding & Logo Design</span>
+              <span class="badge bg-light text-secondary border px-3 py-2 rounded-pill text-uppercase tracking-widest">Digital Illustration</span>
+              <span class="badge bg-light text-secondary border px-3 py-2 rounded-pill text-uppercase tracking-widest">UI/UX</span>
+              <span class="badge bg-light text-secondary border px-3 py-2 rounded-pill text-uppercase tracking-widest">Web Development</span>
+              <span class="badge bg-light text-secondary border px-3 py-2 rounded-pill text-uppercase tracking-widest">Photo & Video</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="education" class="container py-5 mt-5 border-top">
+      <p class="subtitle mb-4">Education</p>
+      <h2 class="display-6 fw-bold mb-5">Riwayat <span class="text-primary-custom">Pendidikan.</span></h2>
+      <div class="row">
+        <div class="col-lg-8">
+          <div class="timeline position-relative ps-4" style="border-left: 2px solid var(--primary);">
+            <div class="position-relative mb-5">
+              <span class="position-absolute top-0 start-0 translate-middle p-2 bg-primary-custom border border-white border-3 rounded-circle" style="margin-left: -1rem; margin-top: 0.5rem;"></span>
+              <h5 class="fw-bold mb-1">2011-2017</h5>
+              <p class="text-muted text-uppercase tracking-widest small mb-0">SD N 04 Banjaran</p>
+            </div>
+            <div class="position-relative mb-5">
+              <span class="position-absolute top-0 start-0 translate-middle p-2 bg-primary-custom border border-white border-3 rounded-circle" style="margin-left: -1rem; margin-top: 0.5rem;"></span>
+              <h5 class="fw-bold mb-1">2017-2020</h5>
+              <p class="text-muted text-uppercase tracking-widest small mb-0">MTs N 1 Pemalang</p>
+            </div>
+            <div class="position-relative mb-5">
+              <span class="position-absolute top-0 start-0 translate-middle p-2 bg-primary-custom border border-white border-3 rounded-circle" style="margin-left: -1rem; margin-top: 0.5rem;"></span>
+              <h5 class="fw-bold mb-1">2020-2023</h5>
+              <p class="text-muted text-uppercase tracking-widest small mb-0">SMA N 1 Pemalang</p>
+            </div>
+            <div class="position-relative">
+              <span class="position-absolute top-0 start-0 translate-middle p-2 bg-primary-custom border border-white border-3 rounded-circle" style="margin-left: -1rem; margin-top: 0.5rem;"></span>
+              <h5 class="fw-bold mb-1">2023-Sekarang</h5>
+              <p class="text-muted text-uppercase tracking-widest small mb-0">Telkom University Purwokerto</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="work" class="container py-5 mt-5 border-top">
+      <div class="mb-5">
+        <p class="subtitle">Portfolio / Project</p>
+        <h2 class="fw-bold display-6">Crafted with intent.<br>Built to last.</h2>
+      </div>
+      <div id="filter-container" class="d-flex flex-wrap gap-2 mb-5"></div>
+      <div id="portfolio-grid" class="masonry-grid"></div>
+    </section>
+
+    <section id="contact" class="container py-5 mt-5 border-top mb-5 text-center">
+      <div class="mb-5">
+        <p class="subtitle">Contact</p>
+        <h2 class="display-6 fw-bold">Let's create something <br><span class="text-primary-custom">remarkable together.</span></h2>
+      </div>
+      <div class="d-flex justify-content-center flex-wrap gap-3">
+        <a href="https://instagram.com/str.oow" target="_blank" class="btn-outline-custom text-decoration-none px-5 py-3 rounded-pill fw-bold">Instagram</a>
+        <a href="https://mail.google.com/mail/?view=cm&fs=1&to=bajiguranget30@gmail.com" target="_blank" class="btn-outline-custom text-decoration-none px-5 py-3 rounded-pill fw-bold">Email</a>
+        <a href="https://wa.me/6287824253298" target="_blank" class="btn-outline-custom text-decoration-none px-5 py-3 rounded-pill fw-bold">WhatsApp</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="py-4 border-top bg-white">
+    <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center small text-uppercase tracking-widest">
+      <div class="text-primary-custom fw-bold mb-2 mb-md-0">O X Y - P R O J E C T</div>
+      <div class="text-muted">© 2026 Satrio. All rights reserved.</div>
+    </div>
+  </footer>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    $(document).ready(function() {
+      const $filterContainer = $('#filter-container');
+      const $gridContainer = $('#portfolio-grid');
+      
+      const categories = ['All', 'Design', 'Photo', 'Video', 'Art', 'GitHub'];
+      let currentFilter = 'All';
+
+      const localProjects = [
+        { id: 1, title: 'Eternal Bond', category: 'Photo', image: 'images/Eternal Bond.png' },
+        { id: 2, title: 'Viona Gallery', category: 'Design', image: 'images/Viona Gallery.jpg' },
+        { id: 3, title: 'Gerombyang Pemalang', category: 'Video', video: 'videos/gerombyang pemalang.mp4', image: 'images/project-3.jpg' },
+        { id: 4, title: 'Sharp', category: 'Art', image: 'images/sharp.webp' }
+      ];
+
+      // 1. AJAX: Quote Motivasi 
+      function fetchQuote() {
+        $.getJSON('https://dummyjson.com/quotes/random')
+          .done(function(data) {
+            $('#quote-text').text(`"${data.quote}"`);
+            $('#quote-author').text(`- ${data.author}`);
+          })
+          .fail(function() {
+            $('#quote-text').text('"Design is how it works."');
+            $('#quote-author').text('- Steve Jobs');
+          });
+      }
+
+      // 2. Render Filter Buttons
+      function renderFilters() {
+        $filterContainer.empty();
+        $.each(categories, function(i, cat) {
+          $('<button>')
+            .addClass(`filter-btn ${cat === currentFilter ? 'active' : ''}`)
+            .text(cat)
+            .on('click', function() {
+              currentFilter = cat;
+              renderFilters();
+              currentFilter === 'GitHub' ? fetchGitHubRepos() : renderMasonry(localProjects);
+            })
+            .appendTo($filterContainer);
+        });
+      }
+
+      // 3. AJAX: GitHub Repos
+      function fetchGitHubRepos() {
+        $gridContainer.html('<p class="text-center w-100 text-muted">Menarik data dari GitHub...</p>');
+        
+        $.getJSON('https://api.github.com/users/kingzox/repos?sort=updated&per_page=6')
+          .done(function(repos) {
+            const githubProjects = $.map(repos, function(repo) {
+              return {
+                id: repo.id,
+                title: repo.name.replace(/-/g, ' '),
+                category: 'GitHub Repo',
+                image: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&q=80',
+                url: repo.html_url
+              };
+            });
+            renderMasonry(githubProjects);
+          })
+          .fail(function() {
+            $gridContainer.html('<p class="text-center w-100 text-danger">Gagal memuat repositori.</p>');
+          });
+      }
+
+      // 4. Render Masonry Grid
+      function renderMasonry(dataArray) {
+        $gridContainer.empty();
+        
+        let dataToRender = dataArray;
+        if (currentFilter !== 'All' && currentFilter !== 'GitHub') {
+          dataToRender = $.grep(dataArray, function(p) {
+            return p.category.toLowerCase() === currentFilter.toLowerCase();
+          });
+        }
+
+        if (dataToRender.length === 0) {
+          $gridContainer.html('<p class="text-center w-100 text-muted mt-4">Belum ada project.</p>');
+          return;
+        }
+
+        const width = $(window).width();
+        let numCols = width >= 1024 ? 4 : (width >= 768 ? 2 : 1);
+        const columns = Array.from({ length: numCols }, () => $('<div>').addClass('masonry-col'));
+
+        $.each(dataToRender, function(index, p) {
+          const mediaHTML = (p.category.toLowerCase() === 'video' && p.video) 
+            ? `<video src="${p.video}" poster="${p.image}" autoplay muted loop playsinline></video>`
+            : `<img src="${p.image}" alt="${p.title}" loading="lazy">`;
+          
+          const linkHTML = p.url ? `<a href="${p.url}" target="_blank" class="text-white text-decoration-none border border-white px-3 py-1 rounded-pill mt-2 small">View Source &rarr;</a>` : '';
+
+          const card = `
+            <article class="portfolio-card">
+              <div style="position: relative; overflow: hidden; line-height: 0;">
+                ${mediaHTML}
+                <div class="card-overlay">
+                  <h3 class="h5 fw-bold">${p.title}</h3>
+                  ${linkHTML}
+                </div>
+              </div>
+              <div class="card-info">
+                <p>${p.category}</p>
+                <h4>${p.title}</h4>
+              </div>
+            </article>`;
+          
+          columns[index % numCols].append(card);
+        });
+
+        $.each(columns, function(i, col) {
+          $gridContainer.append(col);
+        });
+      }
+
+      // 5. Init & Events
+      fetchQuote();
+      renderFilters();
+      renderMasonry(localProjects);
+
+      $(window).on('resize', function() {
+        clearTimeout(window.resizeTimer);
+        window.resizeTimer = setTimeout(function() {
+          currentFilter === 'GitHub' ? fetchGitHubRepos() : renderMasonry(localProjects);
+        }, 200);
+      });
+    });
+  </script>
+</body>
+</html>
