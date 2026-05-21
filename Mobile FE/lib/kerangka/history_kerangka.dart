@@ -2,105 +2,118 @@ import 'package:flutter/material.dart';
 import '../theme/app_theme.dart';
 
 class HistoryKerangka {
-  // Kerangka Kartu Event History
-  static Widget historyCard(
-    BuildContext context, {
+  // 1. Header Halaman History
+  static Widget historyHeader() {
+    return const Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          "Event History",
+          style: TextStyle(fontSize: 28, fontWeight: FontWeight.w900, color: AppTheme.darkBlue),
+        ),
+        SizedBox(height: 4),
+        Text(
+          "Pantau status pendaftaran dan daftar event yang pernah kamu ikuti.",
+          style: TextStyle(fontSize: 14, color: Colors.blueGrey),
+        ),
+      ],
+    );
+  }
+
+  // 2. Kartu Riwayat Event (Versi Mobile)
+  static Widget historyCard({
     required String title,
     required String date,
-    required String location,
+    required String id,
     required String status,
-    required Color statusColor,
-    required Color statusTextColor,
-    required VoidCallback onDetailsPressed, // Fungsi ketika tombol diklik
+    required VoidCallback onDetailPressed,
   }) {
+    // Logika warna status
+    Color badgeColor = AppTheme.badgePendingBg;
+    Color textColor = AppTheme.badgePendingText;
+
+    if (status.toLowerCase() == 'approved') {
+      badgeColor = AppTheme.badgeGreenBg;
+      textColor = AppTheme.badgeGreenText;
+    }
+
     return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(20),
-      margin: const EdgeInsets.only(bottom: 16), // Jarak antar kartu
+      margin: const EdgeInsets.only(bottom: 16),
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppTheme.white,
+        color: Colors.white,
         borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: Colors.grey.shade100),
         boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.03),
-            blurRadius: 15,
-            offset: const Offset(0, 5),
-          ),
+          BoxShadow(color: Colors.black.withOpacity(0.02), blurRadius: 10, offset: const Offset(0, 4)),
         ],
       ),
-      child: Column(
+      child: Row(
         children: [
-          // Bagian Atas: Gambar, Judul, Waktu, Lokasi
-          Row(
-            children: [
-              Container(
-                width: 60,
-                height: 60,
-                decoration: BoxDecoration(color: AppTheme.lightGreyBg, borderRadius: BorderRadius.circular(12)),
-                child: const Icon(Icons.image_outlined, color: Colors.black26, size: 28),
-              ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+          // Icon Placeholder (Kotak Abu-abu di kiri)
+          Container(
+            width: 60,
+            height: 60,
+            decoration: BoxDecoration(
+              color: Colors.grey.shade50,
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Icon(Icons.image_outlined, color: Colors.grey.shade300),
+          ),
+          const SizedBox(width: 16),
+          
+          // Informasi Tengah
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w900, color: AppTheme.darkBlue),
+                ),
+                const SizedBox(height: 6),
+                Row(
                   children: [
-                    Text(
-                      title,
-                      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w900, fontStyle: FontStyle.italic, color: Color(0xFF0F172A)),
-                      maxLines: 1, overflow: TextOverflow.ellipsis,
-                    ),
-                    const SizedBox(height: 8),
-                    Row(
-                      children: [
-                        const Icon(Icons.calendar_today_outlined, size: 14, color: AppTheme.greyText),
-                        const SizedBox(width: 4),
-                        Text(date, style: const TextStyle(fontSize: 12, color: AppTheme.greyText, fontWeight: FontWeight.w600)),
-                        const SizedBox(width: 16),
-                        const Icon(Icons.location_on_outlined, size: 14, color: AppTheme.greyText),
-                        const SizedBox(width: 4),
-                        Expanded(
-                          child: Text(location, style: const TextStyle(fontSize: 12, color: AppTheme.greyText, fontWeight: FontWeight.w600), maxLines: 1, overflow: TextOverflow.ellipsis),
-                        ),
-                      ],
-                    ),
+                    const Icon(Icons.calendar_today_outlined, size: 12, color: Colors.grey),
+                    const SizedBox(width: 4),
+                    Text(date, style: const TextStyle(fontSize: 11, color: Colors.grey)),
+                    const SizedBox(width: 12),
+                    const Icon(Icons.info_outline, size: 12, color: Colors.grey),
+                    const SizedBox(width: 4),
+                    Text(id, style: const TextStyle(fontSize: 11, color: Colors.grey)),
                   ],
                 ),
-              ),
-            ],
-          ),
-          
-          const Padding(
-            padding: EdgeInsets.symmetric(vertical: 16),
-            child: Divider(color: AppTheme.dividerColor, height: 1),
+              ],
+            ),
           ),
 
-          // Bagian Bawah: Status & Tombol Details
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          // Bagian Kanan (Status & Tombol)
+          Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text("STATUS", style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Colors.black38, letterSpacing: 1.0)),
-                  const SizedBox(height: 4),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-                    decoration: BoxDecoration(color: statusColor, borderRadius: BorderRadius.circular(20)),
-                    child: Text(status, style: TextStyle(fontSize: 12, fontWeight: FontWeight.w800, color: statusTextColor)),
-                  ),
-                ],
-              ),
-              ElevatedButton(
-                onPressed: onDetailsPressed, // Dieksekusi dari file utama
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF0F172A),
-                  foregroundColor: Colors.white,
-                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                  elevation: 0,
+              // Badge Status
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                decoration: BoxDecoration(color: badgeColor, borderRadius: BorderRadius.circular(8)),
+                child: Text(
+                  status.toUpperCase(),
+                  style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: textColor),
                 ),
-                child: const Text("DETAILS", style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, letterSpacing: 0.5)),
+              ),
+              const SizedBox(height: 10),
+              // Tombol Details Hitam
+              SizedBox(
+                height: 32,
+                child: ElevatedButton(
+                  onPressed: onDetailPressed,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppTheme.darkBlue,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                    elevation: 0,
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                  ),
+                  child: const Text("DETAILS", style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Colors.white)),
+                ),
               ),
             ],
           ),

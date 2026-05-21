@@ -8,97 +8,132 @@ class EditProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppTheme.backgroundLight,
+      backgroundColor: Colors.white,
       body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(24.0),
-          child: Column(
-            children: [
-              // --- TOMBOL BACK ---
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  OutlinedButton.icon(
-                    onPressed: () => Navigator.pop(context),
-                    icon: const Icon(Icons.arrow_back, size: 16, color: AppTheme.darkText),
-                    label: const Text("Back", style: TextStyle(color: AppTheme.darkText, fontWeight: FontWeight.bold)),
-                  ),
-                ],
+        child: Stack(
+          children: [
+            SingleChildScrollView(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 24.0,
+                vertical: 40.0,
               ),
-              const SizedBox(height: 24),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const SizedBox(height: 20),
 
-              // --- KARTU UTAMA ---
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(30.0), // Padding disesuaikan untuk HP
-                decoration: BoxDecoration(
-                  color: AppTheme.white,
-                  borderRadius: BorderRadius.circular(30), 
-                  boxShadow: [
-                    BoxShadow(color: AppTheme.glowPink.withAlpha(80), blurRadius: 80, spreadRadius: 0, offset: const Offset(0, 0)),
-                    BoxShadow(color: Colors.black.withAlpha(5), blurRadius: 30, offset: const Offset(0, 10)),
-                  ],
-                ),
-                // 👇 INI YANG DIUBAH JADI COLUMN (ATAS-BAWAH) 👇
-                child: Column( 
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    // --- BAGIAN ATAS: FOTO PROFIL ---
-                    EditProfileKerangka.editPhotoSection("Admin Univent"),
-                    const SizedBox(height: 40),
+                  // --- PANGGIL DARI KERANGKA ---
+                  EditProfileKerangka.profilePicture(),
+                  const SizedBox(height: 40),
 
-                    // --- BAGIAN BAWAH: FORMULIR ---
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        EditProfileKerangka.editHeader(),
-                        const SizedBox(height: 30),
-                        
-                        EditProfileKerangka.editInputField(
-                          label: "FULL NAME", 
-                          prefixIcon: Icons.person, 
-                          hint: "Admin Univent",
+                  // --- PANGGIL DARI KERANGKA ---
+                  EditProfileKerangka.formHeader(),
+                  const SizedBox(height: 32),
+
+                  // --- INPUT FIELDS PANGGIL DARI KERANGKA ---
+                  EditProfileKerangka.inputField(
+                    label: "FULL NAME",
+                    hint: "Admin Univent",
+                    icon: Icons.person_outline,
+                  ),
+                  const SizedBox(height: 20),
+
+                  EditProfileKerangka.inputField(
+                    label: "BIRTHDAY",
+                    hint: "mm/dd/yyyy",
+                    icon: Icons.cake_outlined,
+                    suffixIcon: Icons.calendar_today_outlined,
+                  ),
+                  const SizedBox(height: 20),
+
+                  EditProfileKerangka.inputField(
+                    label: "PHONE NUMBER",
+                    hint: "08xxxxxx",
+                    icon: Icons.phone_outlined,
+                  ),
+                  const SizedBox(height: 40),
+
+                  // --- TOMBOL CANCEL & SAVE ---
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      TextButton(
+                        onPressed: () => Navigator.pop(context),
+                        child: const Text(
+                          "Cancel",
+                          style: TextStyle(
+                            color: Colors.blueGrey,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                        const SizedBox(height: 20),
-
-                        EditProfileKerangka.editInputField(
-                          label: "BIRTHDAY", 
-                          prefixIcon: Icons.cake_outlined, 
-                          hint: "mm/dd/yyyy", 
-                          suffixIcon: Icons.calendar_month,
-                        ),
-                        const SizedBox(height: 20),
-
-                        EditProfileKerangka.editInputField(
-                          label: "PHONE NUMBER", 
-                          prefixIcon: Icons.phone_outlined, 
-                          hint: "08123456789",
-                        ),
-                        const SizedBox(height: 40),
-
-                        // --- TOMBOL AKSI ---
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center, // Ditengahin biar aman di HP
-                          children: [
-                            TextButton(
-                              onPressed: () => Navigator.pop(context), // Sekalian dikasih fungsi Cancel
-                              child: const Text("Cancel", style: TextStyle(color: AppTheme.greyText, fontWeight: FontWeight.bold)),
-                            ),
-                            const SizedBox(width: 16),
-                            ElevatedButton(
-                              onPressed: () {},
-                              style: AppTheme.primaryButton,
-                              child: const Text("SAVE CHANGES", style: TextStyle(fontWeight: FontWeight.bold)),
+                      ),
+                      const SizedBox(width: 16),
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                          boxShadow: [
+                            BoxShadow(
+                              color: AppTheme.primaryPink.withOpacity(0.4),
+                              blurRadius: 15,
+                              offset: const Offset(0, 5),
                             ),
                           ],
                         ),
-                      ],
+                        child: ElevatedButton(
+                          onPressed: () {
+                            // Logika untuk save changes dan kembali ke profil
+                            Navigator.pop(context);
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppTheme.primaryPink,
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 24,
+                              vertical: 14,
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            elevation: 0,
+                          ),
+                          child: const Text(
+                            "SAVE CHANGES",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 40),
+                ],
+              ),
+            ),
+
+            // --- TOMBOL BACK DI KIRI ATAS ---
+            Positioned(
+              top: 16,
+              left: 16,
+              child: Container(
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black12,
+                      blurRadius: 10,
+                      offset: Offset(0, 2),
                     ),
                   ],
                 ),
+                child: IconButton(
+                  icon: const Icon(Icons.arrow_back, color: AppTheme.darkBlue),
+                  onPressed: () => Navigator.pop(context),
+                ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

@@ -7,7 +7,7 @@ class SubmitKerangka {
     return RichText(
       text: TextSpan(
         text: text,
-        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13, color: AppTheme.darkText),
+        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13, color: AppTheme.darkText), // Atau pakai AppTheme.darkBlue kalau ada
         children: const [
           TextSpan(text: ' *', style: TextStyle(color: AppTheme.primaryPink)),
         ],
@@ -31,6 +31,8 @@ class SubmitKerangka {
             contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
             enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(color: Colors.grey.shade300)),
             focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: AppTheme.primaryPink)),
+            filled: true,
+            fillColor: Colors.white, // Pastikan background form putih
           ),
         ),
       ],
@@ -46,7 +48,11 @@ class SubmitKerangka {
         const SizedBox(height: 8),
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 16),
-          decoration: BoxDecoration(border: Border.all(color: Colors.grey.shade300), borderRadius: BorderRadius.circular(12)),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            border: Border.all(color: Colors.grey.shade300), 
+            borderRadius: BorderRadius.circular(12),
+          ),
           child: DropdownButtonHideUnderline(
             child: DropdownButton<String>(
               isExpanded: true,
@@ -62,7 +68,51 @@ class SubmitKerangka {
     );
   }
 
-  // 4. Kerangka Kotak Upload Poster
+  // 👇 4. FITUR BARU: Form Description dengan Tombol AI 👇
+  static Widget descriptionWithAIField({required String label, required String hint, int maxLines = 4}) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            formLabel(label),
+            // Tombol Generate AI
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+              decoration: BoxDecoration(
+                color: AppTheme.primaryPink,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: const Row(
+                children: [
+                  Icon(Icons.auto_awesome, color: Colors.white, size: 14),
+                  SizedBox(width: 6),
+                  Text("Generate with AI", style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold)),
+                ],
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 8),
+        TextField(
+          maxLines: maxLines,
+          decoration: InputDecoration(
+            hintText: hint,
+            hintStyle: const TextStyle(color: Colors.grey, fontSize: 14),
+            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+            enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(color: Colors.grey.shade300)),
+            focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: AppTheme.primaryPink)),
+            filled: true,
+            fillColor: Colors.white,
+          ),
+        ),
+      ],
+    );
+  }
+
+  // 5. Kerangka Kotak Upload Poster
   static Widget uploadBox() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

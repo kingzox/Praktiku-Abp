@@ -17,13 +17,13 @@ class AppTheme {
   static const Color badgePendingText = Color(0xFFD97706);
   static const Color badgeGreenBg = Color(0xFFD1FAE5);
   static const Color badgeGreenText = Color(0xFF059669);
-  static const Color badgeRedBg = Color(0xFFFEEDF2); 
-  static const Color badgeRedText = Color(0xFFFE2B6E); 
+  static const Color badgeRedBg = Color(0xFFFEEDF2);
+  static const Color badgeRedText = Color(0xFFFE2B6E);
   static const Color glowPink = Color(0xFFFF4081);
-  
+
   // Warna Tambahan Khusus Elemen Profil & Kartu
-  static const Color lightPinkBg = Color(0xFFFEEDF2); 
-  static const Color lightGreyBg = Color(0xFFF3F4F6); 
+  static const Color lightPinkBg = Color(0xFFFEEDF2);
+  static const Color lightGreyBg = Color(0xFFF3F4F6);
   static const Color dividerColor = Color(0xFFE5E7EB);
 
   // ==========================================
@@ -52,17 +52,13 @@ class AppTheme {
     foregroundColor: white,
     padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
     elevation: 0,
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(30),
-    ),
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
   );
 
   static final ButtonStyle outlineButton = OutlinedButton.styleFrom(
     foregroundColor: darkText,
     side: const BorderSide(color: Colors.black12),
     padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(30),
-    ),
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
   );
 }

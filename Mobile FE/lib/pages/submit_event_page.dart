@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../theme/app_theme.dart';
-import '../kerangka/submit_kerangka.dart'; // <-- Panggil dari folder kerangka
+import '../kerangka/submit_kerangka.dart';
+import 'login_page.dart'; // <--- 1. TAMBAHKAN IMPORT INI
 
 class SubmitEventPage extends StatefulWidget {
   const SubmitEventPage({super.key});
@@ -22,58 +23,66 @@ class _SubmitEventPageState extends State<SubmitEventPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // --- HEADER ---
-            const Text("Submit Event", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: AppTheme.darkText)),
-            const SizedBox(height: 8),
-            const Text(
-              "Share your event with the Telkom University Purwokerto community. All fields marked with * are required.",
-              style: TextStyle(fontSize: 14, color: Colors.grey),
+            const Text("Submit Event", style: TextStyle(fontSize: 28, fontWeight: FontWeight.w900, color: AppTheme.darkText, letterSpacing: -0.5)),
+            const SizedBox(height: 4),
+            RichText(
+              text: const TextSpan(
+                text: 'Share your event with the ',
+                style: TextStyle(color: Colors.grey, fontSize: 14),
+                children: [
+                  TextSpan(text: 'Telkom University', style: TextStyle(color: AppTheme.primaryPink, fontWeight: FontWeight.bold)),
+                  TextSpan(text: ' community'),
+                ],
+              ),
             ),
-            const SizedBox(height: 30),
+            const SizedBox(height: 24),
 
-            // --- FORM FIELDS ---
-            SubmitKerangka.inputField(label: "Event Title", hint: "Enter Event Title"),
-            const SizedBox(height: 20),
-            
-            SubmitKerangka.inputField(label: "Organizer Name", hint: "Enter Organizer Title"),
-            const SizedBox(height: 20),
-
-            // Dropdowns Row
-            Row(
-              children: [
-                Expanded(
-                  child: SubmitKerangka.dropdownField(
-                    label: "Organizer Type", 
-                    hint: "Select Type", 
-                    value: _selectedOrganizerType,
-                    items: ['Student Association', 'Lecturer', 'External'],
-                    onChanged: (val) => setState(() => _selectedOrganizerType = val),
-                  ),
-                ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: SubmitKerangka.dropdownField(
-                    label: "Event Category", 
-                    hint: "Select Category", 
-                    value: _selectedCategory,
-                    items: ['Seminar', 'Workshop', 'Competition', 'Gathering'],
-                    onChanged: (val) => setState(() => _selectedCategory = val),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 30),
-
-            // --- EVENT SCHEDULE CARD ---
+            // --- KOTAK FORM PUTIH ---
             Container(
               padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
-                color: AppTheme.lightGreyBg, // Disesuaikan ke warna abu-abu terang AppTheme
-                borderRadius: BorderRadius.circular(16),
+                color: AppTheme.white,
+                borderRadius: BorderRadius.circular(24),
+                border: Border.all(color: Colors.grey.shade200),
+                boxShadow: [
+                  BoxShadow(color: Colors.black.withOpacity(0.02), blurRadius: 10, offset: const Offset(0, 5)),
+                ],
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text("EVENT SCHEDULE", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.blueGrey, letterSpacing: 1.2, fontSize: 12)),
+                  // 1. Event Title
+                  SubmitKerangka.inputField(label: "Event Title", hint: "Enter Event Title"),
+                  const SizedBox(height: 20),
+
+                  // 2. Dropdowns Row
+                  Row(
+                    children: [
+                      Expanded(
+                        child: SubmitKerangka.dropdownField(
+                          label: "Organizer Type", 
+                          hint: "Select type", 
+                          value: _selectedOrganizerType,
+                          items: ['Student Association', 'Lecturer', 'External'],
+                          onChanged: (val) => setState(() => _selectedOrganizerType = val),
+                        ),
+                      ),
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: SubmitKerangka.dropdownField(
+                          label: "Event Category", 
+                          hint: "Select category", 
+                          value: _selectedCategory,
+                          items: ['Seminar', 'Workshop', 'Competition', 'Gathering'],
+                          onChanged: (val) => setState(() => _selectedCategory = val),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 30),
+
+                  // 3. EVENT SCHEDULE SECTION
+                  const Text("EVENT SCHEDULE", style: TextStyle(fontWeight: FontWeight.w900, color: AppTheme.darkText, letterSpacing: 1.2, fontSize: 14)),
                   const SizedBox(height: 16),
                   Row(
                     children: [
@@ -90,16 +99,16 @@ class _SubmitEventPageState extends State<SubmitEventPage> {
                       Expanded(child: SubmitKerangka.inputField(label: "End Time", hint: "--:-- --", icon: Icons.access_time)),
                     ],
                   ),
+                  const SizedBox(height: 30),
+
+                  // 4. DESCRIPTION + TOMBOL AI
+                  SubmitKerangka.descriptionWithAIField(label: "Description", hint: "Describe your event..."),
                 ],
               ),
             ),
-            const SizedBox(height: 30),
+            const SizedBox(height: 24),
 
-            // --- DESCRIPTION ---
-            SubmitKerangka.inputField(label: "Description", hint: "Describe your event...", maxLines: 4),
-            const SizedBox(height: 20),
-
-            // --- LOCATION & CONTACT ---
+            // --- SISA FORM (Lokasi, Link, Poster dkk) ---
             Row(
               children: [
                 Expanded(child: SubmitKerangka.inputField(label: "Location", hint: "Enter Location")),
@@ -112,7 +121,7 @@ class _SubmitEventPageState extends State<SubmitEventPage> {
             SubmitKerangka.inputField(label: "Registration Link", hint: "https://..."),
             const SizedBox(height: 30),
 
-            // --- EVENT POSTER UPLOAD ---
+            // Upload Poster
             SubmitKerangka.uploadBox(),
             const SizedBox(height: 40),
 
@@ -125,14 +134,26 @@ class _SubmitEventPageState extends State<SubmitEventPage> {
                   child: const Text("Clear Form", style: TextStyle(color: AppTheme.darkText, fontWeight: FontWeight.bold)),
                 ),
                 const SizedBox(width: 16),
+                
+                // 👇 2. REVISI DI SINI: SEKARANG DIARAHKAN KE LOGIN PAGE 👇
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const LoginPage(),
+                      ),
+                    );
+                  },
                   style: AppTheme.primaryButton,
-                  child: const Text("Submit Event", style: TextStyle(fontWeight: FontWeight.bold)),
+                  child: const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                    child: Text("Submit Event", style: TextStyle(fontWeight: FontWeight.bold)),
+                  ),
                 ),
               ],
             ),
-            const SizedBox(height: 100),
+            const SizedBox(height: 120), // Spasi bawah buat menu kapsul
           ],
         ),
       ),

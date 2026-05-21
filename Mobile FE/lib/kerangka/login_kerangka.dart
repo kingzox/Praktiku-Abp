@@ -1,49 +1,73 @@
 import 'package:flutter/material.dart';
 import '../theme/app_theme.dart';
+import '../pages/sign_up_page.dart'; // <--- IMPORT HARUS DI SINI PALING ATAS!
 
 class LoginKerangka {
-  // 1. Kerangka Header (Teks Sambutan)
-  static Widget headerSection() {
-    return const Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+  // 1. Header (Welcome Back & Sign Up)
+  static Widget headerSection(BuildContext context) { 
+    return Column(
       children: [
-        Text(
-          "Welcome Back! 👋",
-          style: TextStyle(fontSize: 28, fontWeight: FontWeight.w900, color: AppTheme.darkText),
+        const Text(
+          "Welcome Back",
+          style: TextStyle(fontSize: 32, fontWeight: FontWeight.w900, color: AppTheme.darkText, letterSpacing: -0.5),
         ),
-        SizedBox(height: 8),
-        Text(
-          "Silakan login dengan akun Telkom University Purwokerto kamu.",
-          style: TextStyle(fontSize: 14, color: AppTheme.greyText, height: 1.5),
+        const SizedBox(height: 8),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text("Don't have an account? ", style: TextStyle(color: Colors.grey, fontSize: 14)),
+            GestureDetector(
+              onTap: () {
+                // 👇 PINDAH KE HALAMAN REGISTER! 👇
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const SignUpPage()),
+                );
+              },
+              child: const Text("Sign Up", style: TextStyle(color: Colors.redAccent, fontWeight: FontWeight.bold)),
+            ),
+          ],
         ),
       ],
     );
   }
 
-  // 2. Kerangka Input Field (Email & Password)
+  // 2. Input Field (Email & Password)
   static Widget inputField({
     required String label,
     required String hint,
     required IconData icon,
     bool isPassword = false,
+    Widget? rightLabel,
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label, style: const TextStyle(fontWeight: FontWeight.bold, color: AppTheme.darkText, fontSize: 14)),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(label, style: const TextStyle(fontWeight: FontWeight.bold, color: AppTheme.darkText, fontSize: 14)),
+            if (rightLabel != null) rightLabel,
+          ],
+        ),
         const SizedBox(height: 8),
         TextField(
           obscureText: isPassword,
           decoration: InputDecoration(
             hintText: hint,
-            hintStyle: const TextStyle(color: Colors.grey, fontSize: 14),
-            prefixIcon: Icon(icon, color: AppTheme.primaryPink, size: 20),
+            hintStyle: TextStyle(color: Colors.grey.shade400, fontSize: 14),
+            prefixIcon: Icon(icon, color: Colors.grey.shade400, size: 20),
+            suffixIcon: isPassword ? Icon(Icons.visibility_outlined, color: Colors.grey.shade400, size: 20) : null,
             filled: true,
-            fillColor: AppTheme.lightGreyBg,
+            fillColor: Colors.white,
             contentPadding: const EdgeInsets.symmetric(vertical: 16),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(15),
-              borderSide: BorderSide.none,
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: BorderSide(color: Colors.grey.shade300),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: const BorderSide(color: AppTheme.primaryPink),
             ),
           ),
         ),
@@ -51,31 +75,60 @@ class LoginKerangka {
     );
   }
 
-  // 3. Kerangka Tombol Login
-  static Widget loginButton({required VoidCallback onPressed}) {
-    return SizedBox(
+  // 3. Tombol Login Utama Berbayang
+  static Widget primaryButton(String text, VoidCallback onPressed) {
+    return Container(
       width: double.infinity,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: AppTheme.primaryPink.withOpacity(0.3),
+            blurRadius: 15,
+            offset: const Offset(0, 8),
+          ),
+        ],
+      ),
       child: ElevatedButton(
         onPressed: onPressed,
-        style: AppTheme.primaryButton,
-        child: const Text("LOGIN", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+        style: ElevatedButton.styleFrom(
+          backgroundColor: AppTheme.primaryPink, 
+          padding: const EdgeInsets.symmetric(vertical: 16),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          elevation: 0,
+        ),
+        child: Text(text, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white)),
       ),
     );
   }
 
-  // 4. Kerangka Footer (Belum Punya Akun?)
-  static Widget footerText({required VoidCallback onRegisterPressed}) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        const Text("Belum punya akun? ", style: TextStyle(color: AppTheme.greyText, fontSize: 14)),
-        GestureDetector(
-          onTap: onRegisterPressed,
-          child: const Text(
-            "Daftar di sini",
-            style: TextStyle(color: AppTheme.primaryPink, fontWeight: FontWeight.bold, fontSize: 14),
-          ),
+  // 4. Tombol Google Account
+  static Widget googleButton() {
+    return SizedBox(
+      width: double.infinity,
+      child: OutlinedButton.icon(
+        onPressed: () {},
+        icon: const Text("G", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.green, fontSize: 18)), 
+        label: const Text("Google Account", style: TextStyle(color: AppTheme.darkText, fontWeight: FontWeight.bold)),
+        style: OutlinedButton.styleFrom(
+          padding: const EdgeInsets.symmetric(vertical: 16),
+          side: BorderSide(color: Colors.grey.shade300),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         ),
+      ),
+    );
+  }
+
+  // 5. Garis Pemisah (Or continue with)
+  static Widget dividerOr() {
+    return Row(
+      children: [
+        Expanded(child: Divider(color: Colors.grey.shade200, thickness: 1)),
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16),
+          child: Text("Or continue with", style: TextStyle(color: Colors.blueGrey, fontSize: 13, fontStyle: FontStyle.italic)),
+        ),
+        Expanded(child: Divider(color: Colors.grey.shade200, thickness: 1)),
       ],
     );
   }
